@@ -24,8 +24,9 @@ PROGRAM_NAME= penaltyshootout
 run: $(PROGRAM_NAME)
 	./$(PROGRAM_NAME)$(EXEEXT)
 
-$(PROGRAM_NAME):
-	$(CC) -o penaltyshootout penaltyshootout.cpp $(CFLAGS) $(LDFLAGS)
+#To add a file to compile list use name of file.o to ensure there are no compile errors and or clean errors when using make command
+$(PROGRAM_NAME): penaltyshootout.o goalkeeper.o mathLib3D.o
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean:
 	$(RM) *.o $(PROGRAM_NAME)$(EXEEXT)

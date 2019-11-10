@@ -4,6 +4,7 @@
 
 class Point3D {
 public:
+    Point3D();
     Point3D(float px, float py, float pz);
 
     float px;

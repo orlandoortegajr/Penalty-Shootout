@@ -1,6 +1,13 @@
 #include "mathLib3D.h"
 #include <math.h>
 
+Point3D::Point3D()
+{
+    this->px = 0;
+    this->py = 0;
+    this->pz = 0;
+}
+
 Point3D::Point3D(float px, float py , float pz){
 
     Point3D::px = px;

@@ -1,0 +1,7 @@
+Orlando:
+created goalkeeper.h
+created goalkeeper.cpp
+fixed make to remove errors when cleaning
+added goalkeeper header to main
+added default constructor to mathlib3d to be able to initialize point3D members of a class.
+Initialize current functions from class

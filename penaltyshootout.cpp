@@ -13,6 +13,8 @@
 #  include <GL/freeglut.h>
 #endif
 
+#include "goalkeeper.h"
+
 using namespace std;
 
 bool isPaused = false;
