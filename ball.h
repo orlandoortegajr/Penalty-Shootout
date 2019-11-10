@@ -1,4 +1,4 @@
-//#ifndef BALL_H
+#ifndef BALL_H
 #define BALL_H
 
 #include "mathLib3D.h"
@@ -13,4 +13,6 @@ public:
     float speed; // Speed the Ball is Kicked
     void draw(); // Draws Ball At its Current Position
     void update(); // Updates Ball's Position using Speed, Direction and Friction
-}
+};
+
+#endif
