@@ -83,6 +83,17 @@ float verts[8][3] = {
     {0.5, -0.5, -0.5}
 };
 
+// float verts[8][3] = {
+//     {17.5, 3.5, 2.5},
+//     {17.5, 4, 2.5},
+//     {18, 4, 2.5},
+//     {18, 3.5, 2.5},
+//     {17.5, 3.5, 2},
+//     {17.5, 4, 2},
+//     {18, 3.5, 2},
+//     {18, 3.5, 2}
+// };
+
 int indices[6][4] = {
     //top
     {1,2,6,5},
@@ -115,18 +126,15 @@ void drawGKFace(int index)
     glEnd();
 }
 
+float color[3] = {0,0,1};
 //draw cube
 void drawCubeIndex()
 {
     for(int i = 0; i < numFaces; i++) {
-        glColor3fv(goalie.skinColor);
+        glColor3fv(color);
         drawGKFace(i);
     }
 }
-
-
-
-
 
 void setMaterials(unsigned int index) {
     
@@ -151,6 +159,7 @@ void drawNet(){
 
     glColor3f(0, 0, 0);
 
+    //inner part of net
     glBegin(GL_QUADS);
     glNormal3f(0,-1,0);
     glVertex3f(18,-4,0);
@@ -161,6 +170,7 @@ void drawNet(){
 
     glColor3f(1, 1, 1);
 
+    //crossbars
     glBegin(GL_QUADS);
     glVertex3f(18.01,-4.25,0);
     glVertex3f(18.01,-4.25,2.25);
@@ -254,6 +264,7 @@ void FPS(int val){
 
 void display()
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw3DScene();
     glutSwapBuffers();
 }
