@@ -24,8 +24,8 @@ PROGRAM_NAME= penaltyshootout
 run: $(PROGRAM_NAME)
 	./$(PROGRAM_NAME)$(EXEEXT)
 
-$(PROGRAM_NAME): penaltyshootout.o 
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+$(PROGRAM_NAME):
+	$(CC) -o penaltyshootout penaltyshootout.cpp $(CFLAGS) $(LDFLAGS)
 
 clean:
 	$(RM) *.o $(PROGRAM_NAME)$(EXEEXT)

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
-#include <bits/stdc++.h> 
+//#include <bits/stdc++.h> 
 
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
@@ -202,11 +202,9 @@ void kbd(unsigned char key, int x, int y)
     switch(key){
         
         case 'q':
+        case 27:
             exit(0);
             break;
-             
-
-
     }
 
 
