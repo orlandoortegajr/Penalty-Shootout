@@ -12,6 +12,7 @@ class GoalKeeper
         Point3D position;
         float speed;
         float difficulty;
+        float meshVerts[8][3];
 
         float outfitColor[3];
         float skinColor[3];

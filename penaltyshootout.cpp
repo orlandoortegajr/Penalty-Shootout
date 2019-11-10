@@ -68,6 +68,64 @@ GLfloat planeMaterialShiny =
     0.6
 ;
 
+/*
+GOALKEEPER VARS
+*/
+
+float verts[8][3] = {
+    {-0.5, -0.5, 0.5},
+    {-0.5, 0.5, 0.5},
+    {0.5, 0.5, 0.5},
+    {0.5, -0.5, 0.5},
+    {-0.5, -0.5, -0.5},
+    {-0.5, 0.5, -0.5},
+    {0.5, 0.5, -0.5},
+    {0.5, -0.5, -0.5}
+};
+
+int indices[6][4] = {
+    //top
+    {1,2,6,5},
+    //left
+    {1,5,4,0},
+    //back 
+    {5,7,7,4},
+    //right
+    {2,3,7,6},
+    //bottom
+    {0,4,7.3},
+    //front
+    {1,0,3,2}
+};
+
+//GoalKeeper Initialization
+GoalKeeper goalie = GoalKeeper(1,0,0,0);
+
+//number of faces for cube
+int numFaces = 6;
+
+//Goalkeeper Face
+void drawGKFace(int index) 
+{
+    glBegin(GL_POLYGON);
+        for(int i = 0; i < 4; i++) {
+            int vIndex = indices[index][i];
+            glVertex3fv(verts[vIndex]);
+        }   
+    glEnd();
+}
+
+//draw cube
+void drawCubeIndex()
+{
+    for(int i = 0; i < numFaces; i++) {
+        glColor3fv(goalie.skinColor);
+        drawGKFace(i);
+    }
+}
+
+
+
 
 
 void setMaterials(unsigned int index) {
@@ -170,9 +228,10 @@ void draw3DScene(){
   
     cnt++;
 
+    drawCubeIndex();
     createPlane();
     drawNet();
-
+    
 
     ang++;
 
