@@ -14,6 +14,7 @@
 #endif
 
 #include "goalkeeper.h"
+#include "ball.h"
 
 using namespace std;
 
@@ -32,6 +33,8 @@ float mouseY = 0;
 
 bool isLeftPressed = false;
 bool isRightPressed = false;
+
+Ball football;
 
 GLfloat materialAmbient[3][4] = {
     { 0.2, 0.2, 1, 1.0 },
@@ -223,12 +226,14 @@ void draw3DScene(){
     // Static view of end of field
     gluLookAt(0,0,2,    20, 0 , 0,      0, 0, 1);
 
-
-    // gluLookAt(0,0,2, 2, mouseX*100 , mouseY*100, 0, 0, 1);
+    //gluLookAt(0,0,2, 2, mouseX*100 , mouseY*100, 0, 0, 1);
   
     cnt++;
-
-    drawCubeIndex();
+    glPushMatrix();
+    glTranslatef(2,0,1);
+    football.draw();
+    //drawCubeIndex();
+    glPopMatrix();
     createPlane();
     drawNet();
     
@@ -248,14 +253,14 @@ void FPS(int val){
 }
 
 
-
-
-
-
 void display()
 {
     draw3DScene();
     glutSwapBuffers();
+}
+
+void initBall(){
+    football = Ball();
 }
 
 void kbd(unsigned char key, int x, int y)
@@ -330,7 +335,7 @@ int main(int argc, char** argv)
     glutMotionFunc(updateMousePos);
     glutMouseFunc(mouse);
    
-    
+    initBall();
 	glClearColor(0.5294117647,0.807,0.98, 0.8);
 
     glEnable(GL_COLOR_MATERIAL);

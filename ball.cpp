@@ -8,12 +8,13 @@
 #  include <GL/freeglut.h>
 #endif
 
+#include <math.h>
 #include "ball.h"
 
 Ball::Ball(){
     this->position = Point3D(0,0,0);
     this->direction = Vec3D();
-    this->friction = 95;
+    this->friction = 90;
     this->speed = 0;
 }
 
@@ -26,10 +27,11 @@ Ball::Ball(Point3D pos, Vec3D dir, float friction, float spd){
 
 void Ball::draw(){
     glPushMatrix();
-        glColor3f(0.1, 0.1, 0.1);
+        glColor3f(1, 0, 0);
         glTranslatef(this->position.px, this->position.py, this->position.pz);
         glPushMatrix();
-            glutWireSphere(0.3, 10, 10);
+            glScalef(0.25, 0.25, 0.25);
+            glutSolidSphere(1, 10, 10);
         glPopMatrix();
     glPopMatrix();
 }
