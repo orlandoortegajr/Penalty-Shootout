@@ -34,7 +34,7 @@ float mouseY = 0;
 bool isLeftPressed = false;
 bool isRightPressed = false;
 
-Ball football;
+Ball soccerBall;
 
 GLfloat materialAmbient[3][4] = {
     { 0.2, 0.2, 1, 1.0 },
@@ -107,7 +107,7 @@ int indices[6][4] = {
     //right
     {2,3,7,6},
     //bottom
-    {0,4,7.3},
+    {0,4,7,3},
     //front
     {1,0,3,2}
 };
@@ -139,6 +139,10 @@ void drawCubeIndex()
     }
 }
 
+void update(){
+    soccerBall.update();   
+}
+
 void setMaterials(unsigned int index) {
     
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
@@ -150,12 +154,6 @@ void setMaterials(unsigned int index) {
 
 
 
-void update(){
-
-    gluLookAt(5,0,5, mouseX, 5 , 5, 0, 0, 1);
-
-   
-}
 
 void drawNet(){
     //temporary net
@@ -241,7 +239,8 @@ void draw3DScene(){
     cnt++;
     glPushMatrix();
     glTranslatef(2,0,1);
-    football.draw();
+    soccerBall.update();
+    soccerBall.draw();
     //drawCubeIndex();
     glPopMatrix();
     createPlane();
@@ -271,7 +270,7 @@ void display()
 }
 
 void initBall(){
-    football = Ball();
+    soccerBall = Ball();
 }
 
 void kbd(unsigned char key, int x, int y)
@@ -282,6 +281,8 @@ void kbd(unsigned char key, int x, int y)
         case 27:
             exit(0);
             break;
+        case ' ':
+            initBall();
     }
 
 
