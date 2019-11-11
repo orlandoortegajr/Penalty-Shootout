@@ -15,7 +15,7 @@ Ball::Ball(){
     this->position = Point3D(0,0,0.5);
     this->direction = Vec3D(1,static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 0.2 - 0.1 ,0);
     this->friction = 90;
-    this->speed = 1;
+    this->speed = 0.7;
 }
 
 Ball::Ball(Point3D pos, Vec3D dir, float friction, float spd){
@@ -29,6 +29,12 @@ void Ball::update(){
 
     this->position.py = this->position.py + this->direction.dy*this->speed;
     this->position.px = this->position.px + this->direction.dx*this->speed;
+
+    this->position.pz = this->position.pz - 0.05;
+
+    // if ( this->position.pz < 0.25){
+    //     this->position.pz = 0.25;
+    // }
 
 
 
