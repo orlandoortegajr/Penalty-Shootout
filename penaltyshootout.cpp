@@ -307,6 +307,9 @@ void reshape( int w, int h){
     glutPostRedisplay();
 }
 
+void update(){
+    soccerBall.update();
+}
 
 void draw3DScene(){
     
@@ -325,6 +328,7 @@ void draw3DScene(){
     cnt++;
     glPushMatrix();
     glTranslatef(2,0,1);
+    update();
     soccerBall.draw();
     glPopMatrix();
 
@@ -429,6 +433,8 @@ void SpecialInput(int key, int x, int y)
 }
 
 }
+
+
 
 void updateMousePos(int x, int y){
 
