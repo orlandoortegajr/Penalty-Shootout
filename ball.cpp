@@ -32,8 +32,8 @@ void Ball::update(){
 
     this->position.pz = this->position.pz - 0.05;
 
-    // if ( this->position.pz < 0.25){
-    //     this->position.pz = 0.25;
+    // if ( this->position.pz < 0){
+    //     this->position.pz = 0;
     // }
 
 
