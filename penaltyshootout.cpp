@@ -72,30 +72,55 @@ GLfloat planeMaterialShiny =
 ;
 
 /*
-GOALKEEPER VARS
+GOALKEEPER Vertices
+x= ?
+y = thickness
+z = length
 */
 
-float verts[8][3] = {
-    {-0.5, -0.5, 0.5},
-    {-0.5, 0.5, 0.5},
-    {0.5, 0.5, 0.5},
-    {0.5, -0.5, 0.5},
-    {-0.5, -0.5, -0.5},
-    {-0.5, 0.5, -0.5},
-    {0.5, 0.5, -0.5},
-    {0.5, -0.5, -0.5}
+float headVerts[8][3] = {
+    {-0.1, -0.1, 0.1},
+    {-0.1, 0.1, 0.1},
+    {0.1, 0.1, 0.1},
+    {0.1, -0.1, 0.1},
+    {-0.1, -0.1, -0.1},
+    {-0.1, 0.1, -0.1},
+    {0.1, 0.1, -0.1},
+    {0.1, -0.1, -0.1}
 };
 
-// float verts[8][3] = {
-//     {17.5, 3.5, 2.5},
-//     {17.5, 4, 2.5},
-//     {18, 4, 2.5},
-//     {18, 3.5, 2.5},
-//     {17.5, 3.5, 2},
-//     {17.5, 4, 2},
-//     {18, 3.5, 2},
-//     {18, 3.5, 2}
-// };
+float bodyVerts[8][3] = {
+    {-0.5, -0.2, 0.35},
+    {-0.5, 0.2, 0.35},
+    {0.5, 0.2, 0.35},
+    {0.5, -0.2, 0.35},
+    {-0.5, -0.2, -0.35},
+    {-0.5, 0.2, -0.35},
+    {0.5, 0.2, -0.35},
+    {0.5, -0.2, -0.35}
+};
+
+float legVerts[8][3] = {
+    {-0.5, -0.05, 0.25},
+    {-0.5, 0.05, 0.25},
+    {0.5, 0.05, 0.25},
+    {0.5, -0.05, 0.25},
+    {-0.5, -0.05, -0.25},
+    {-0.5, 0.05, -0.25},
+    {0.5, 0.05, -0.25},
+    {0.5, -0.05, -0.25}
+};
+
+float armVerts[8][3] = {
+    {-0.4, -0.05, 0.225},
+    {-0.4, 0.05, 0.225},
+    {0.4, 0.05, 0.225},
+    {0.4, -0.05, 0.225},
+    {-0.4, -0.05, -0.225},
+    {-0.4, 0.05, -0.225},
+    {0.4, 0.05, -0.225},
+    {0.4, -0.05, -0.225}
+};
 
 int indices[6][4] = {
     //top
@@ -124,18 +149,88 @@ void drawGKFace(int index)
     glBegin(GL_POLYGON);
         for(int i = 0; i < 4; i++) {
             int vIndex = indices[index][i];
-            glVertex3fv(verts[vIndex]);
+            glVertex3fv(headVerts[vIndex]);
         }   
     glEnd();
 }
 
 float color[3] = {0,0,1};
-//draw cube
-void drawCubeIndex()
+
+void drawGKFaceIndex()
 {
     for(int i = 0; i < numFaces; i++) {
+
         glColor3fv(color);
         drawGKFace(i);
+    }
+}
+
+//Goalkeeper Body
+void drawGKBody(int index)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 4; i++)
+    {
+        int vIndex = indices[index][i];
+        glVertex3fv(bodyVerts[vIndex]);
+    }
+    glEnd();
+}
+
+float colorB[3] = {0, 1, 0};
+
+void drawGKBodyIndex()
+{
+    for (int i = 0; i < numFaces; i++)
+    {
+        glColor3fv(colorB);
+        drawGKBody(i);
+    }
+}
+
+//Goalkeeper Legs
+void drawGKLeg(int index)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 4; i++)
+    {
+        int vIndex = indices[index][i];
+        glVertex3fv(legVerts[vIndex]);
+    }
+    glEnd();
+}
+
+float colorL[3] = {1, 0, 0};
+
+void drawGKLegIndex()
+{
+    for (int i = 0; i < numFaces; i++)
+    {
+        glColor3fv(colorL);
+        drawGKLeg(i);
+    }
+}
+
+//Goalkeeper Arms
+void drawGKArm(int index)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 4; i++)
+    {
+        int vIndex = indices[index][i];
+        glVertex3fv(armVerts[vIndex]);
+    }
+    glEnd();
+}
+
+float colorA[3] = {1, 0, 0};
+
+void drawGKArmIndex()
+{
+    for (int i = 0; i < numFaces; i++)
+    {
+        glColor3fv(colorA);
+        drawGKArm(i);
     }
 }
 
@@ -242,8 +337,46 @@ void draw3DScene(){
     glPushMatrix();
     glTranslatef(2,0,1);
     football.draw();
-    //drawCubeIndex();
     glPopMatrix();
+
+    //head
+    glPushMatrix();
+    glTranslatef(17,0,1.45);
+    drawGKFaceIndex();
+    glPopMatrix();
+
+    //body
+    glPushMatrix();
+    glTranslatef(18, 0, 0.95);
+    drawGKBodyIndex();
+    glPopMatrix();
+
+    //right leg
+    glPushMatrix();
+    glTranslatef(18, 0.085, 0.3);
+    drawGKLegIndex();
+    glPopMatrix();
+
+    //left leg
+    glPushMatrix();
+    glTranslatef(18, -0.085, 0.3);
+    drawGKLegIndex();
+    glPopMatrix();
+
+    //rght arm
+    glPushMatrix();
+    glTranslatef(18, 0.3, 1);
+    glRotatef(45,0,0,0);
+    drawGKArmIndex();
+    glPopMatrix();
+
+    // left arm
+    glPushMatrix();
+    glTranslatef(18, -0.3, 1);
+    glRotatef(-45, 0, 0, 0);
+    drawGKArmIndex();
+    glPopMatrix();
+
     createPlane();
     drawNet();
     
