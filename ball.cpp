@@ -10,6 +10,8 @@
 
 #include <math.h>
 #include "ball.h"
+#include <time.h>
+#include <stdlib.h>
 
 Ball::Ball(){
     this->position = Point3D(0,0,0.5);

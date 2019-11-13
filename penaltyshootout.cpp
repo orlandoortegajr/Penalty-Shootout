@@ -462,10 +462,8 @@ void SpecialInput(int key, int x, int y)
 
         case GLUT_KEY_RIGHT:
         break;
+    }
 }
-
-}
-
 
 
 void updateMousePos(int x, int y){
