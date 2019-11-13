@@ -77,6 +77,16 @@ x= ?
 y = thickness
 z = length
 */
+float postVerts[8][3] = {
+    {-0.1, -0.1, 0.1},
+    {-0.1, 0.1, 0.1},
+    {0.1, 0.1, 0.1},
+    {0.1, -0.1, 0.1},
+    {-0.1, -0.1, -0.1},
+    {-0.1, 0.1, -0.1},
+    {0.1, 0.1, -0.1},
+    {0.1, -0.1, -0.1}
+};
 
 float headVerts[8][3] = {
     {-0.1, -0.1, 0.1},
@@ -234,6 +244,29 @@ void drawGKArmIndex()
     }
 }
 
+
+
+void drawpost(int index) 
+{
+    glBegin(GL_POLYGON);
+        for(int i = 0; i < 4; i++) {
+            int vIndex = indices[index][i];
+            glVertex3fv(postVerts[vIndex]);
+        }   
+    glEnd();
+}
+
+float white[3] = {1,1,1};
+
+void drawpostIndex()
+{
+    for(int i = 0; i < numFaces; i++) {
+
+        glColor3fv(white);
+        drawGKFace(i);
+    }
+}
+
 void setMaterials(unsigned int index) {
     
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
@@ -244,28 +277,25 @@ void setMaterials(unsigned int index) {
 }
 
 void drawNet(){
-    //temporary net
 
-    glColor3f(0, 0, 0);
-
-    //inner part of net
-    glBegin(GL_QUADS);
-    glNormal3f(0,-1,0);
-    glVertex3f(18,-4,0);
-    glVertex3f(18,-4,2);
-    glVertex3f(18,4,2);
-    glVertex3f(18,4, 0);
-    glEnd();
-
-    glColor3f(1, 1, 1);
-
-    //crossbars
-    glBegin(GL_QUADS);
-    glVertex3f(18.01,-4.25,0);
-    glVertex3f(18.01,-4.25,2.25);
-    glVertex3f(18.01,4.25,2.25);
-    glVertex3f(18.01,4.25, 0);
-    glEnd();
+//top
+    glPushMatrix();
+    glTranslatef(18,0,2.42);
+    glScalef(1.0,30,1.5);
+    drawpostIndex();
+    glPopMatrix();
+//right
+    glPushMatrix();
+    glTranslatef(18,2.9,1.2);
+    glScalef(1.0,1.0,11.75);
+    drawpostIndex();
+    glPopMatrix();
+//left
+    glPushMatrix();
+    glTranslatef(18,-2.9,1.2);
+    glScalef(1.0,1.0,11.75);
+    drawpostIndex();
+    glPopMatrix();
 
 
 }
@@ -337,6 +367,8 @@ void draw3DScene(){
     glTranslatef(17,0,1.45);
     drawGKFaceIndex();
     glPopMatrix();
+
+    
 
     //body
     glPushMatrix();
