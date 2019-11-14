@@ -4,11 +4,7 @@
 ## Setup
 
 * To Run the prototype, from your Terminal (MacOS/Linux) run:
-	** ```Shell
-		make Makefile
-	   ```
+	```make Makefile```
 
 * To Remove any generates files (including executable) run:
-	** ```Shell
-		make clean
-	   ```
+	```make clean```
