@@ -6,6 +6,8 @@ Goalkeeper::Goalkeeper()
     this->difficulty = 0;
     this->speed = 1.0;
 
+    this->gkReachedPost = false;
+
     //set outfit color to green
     this->setColors(0,1,0,'o');
 
@@ -52,11 +54,12 @@ void Goalkeeper::drawGKArmIndex()
     }
 }
 
+//x coordinate is depth, y is horizontal and z is vertical
 void Goalkeeper::drawGK()
 {
     //head
     glPushMatrix();
-        glTranslatef(17, 0, 1.45);
+        glTranslatef(18, 0, 1.45);
         this->drawGKFaceIndex();
     glPopMatrix();
 
@@ -80,17 +83,50 @@ void Goalkeeper::drawGK()
 
     //rght arm
     glPushMatrix();
-        glTranslatef(18, 0.3, 1);
-        glRotatef(45, 0, 0, 0);
+        glTranslatef(18, 0.27, 1);
+        // glRotatef(45, 0, 0, 0);
         this->drawGKArmIndex();
     glPopMatrix();
 
     // left arm
     glPushMatrix();
-        glTranslatef(18, -0.3, 1);
-        glRotatef(-45, 0, 0, 0);
+        glTranslatef(18, -0.27, 1);
+        // glRotatef(-45, 0, 0, 0);
         this->drawGKArmIndex();
     glPopMatrix();
+}
+
+void Goalkeeper::gkSideways()
+{
+    for(int i = 0; i < 8; i++){
+
+        if (this->gkReachedPost == false)
+        {
+            this->headVerts[i][1] += 0.01;
+            this->bodyVerts[i][1] += 0.01;
+            this->legVerts[i][1] += 0.01;
+            this->armVerts[i][1] += 0.01;
+
+            if (this->bodyVerts[i][1] >= 2.6)
+            {
+                gkReachedPost = true;
+            }
+        }
+
+        if (this->gkReachedPost == true)
+        {
+            this->headVerts[i][1] -= 0.01;
+            this->bodyVerts[i][1] -= 0.01;
+            this->legVerts[i][1] -= 0.01;
+            this->armVerts[i][1] -= 0.01;
+
+            if(this->bodyVerts[i][1] <= -2.6) {
+                gkReachedPost = false;
+            }
+        }   
+
+        
+    }
 }
 
 void Goalkeeper::setColors(float r, float g, float b, char option)

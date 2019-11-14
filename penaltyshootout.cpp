@@ -78,27 +78,6 @@ GLfloat planeMaterialShiny =
     0.6
 ;
 
-// void drawpost(int index) 
-// {
-//     glBegin(GL_POLYGON);
-//         for(int i = 0; i < 4; i++) {
-//             int vIndex = gk.indices[index][i];
-//             glVertex3fv(postVerts[vIndex]);
-//         }   
-//     glEnd();
-// }
-
-// float white[3] = {1,1,1};
-
-// void drawpostIndex()
-// {
-//     for(int i = 0; i < gk.numFaces; i++) {
-
-//         glColor3fv(white);
-//         gk.drawGKFace(i);
-//     }
-// }
-
 void setMaterials(unsigned int index) {
     
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
@@ -107,30 +86,6 @@ void setMaterials(unsigned int index) {
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materialShiny[index]);
 
 }
-
-// void drawNet(){
-
-// //top
-//     glPushMatrix();
-//     glTranslatef(18,0,2.42);
-//     glScalef(1.0,30,1.5);
-//     drawpostIndex();
-//     glPopMatrix();
-// //right
-//     glPushMatrix();
-//     glTranslatef(18,2.9,1.2);
-//     glScalef(1.0,1.0,11.75);
-//     drawpostIndex();
-//     glPopMatrix();
-// //left
-//     glPushMatrix();
-//     glTranslatef(18,-2.9,1.2);
-//     glScalef(1.0,1.0,11.75);
-//     drawpostIndex();
-//     glPopMatrix();
-
-
-// }
 
 void createPlane(){
     glPushMatrix();
@@ -214,6 +169,7 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw3DScene();
+    gk.gkSideways();
     glutSwapBuffers();
 }
 
@@ -310,8 +266,6 @@ int main(int argc, char** argv)
     glLightfv(GL_LIGHT0, GL_SPECULAR, spec[0]);
 
 
-
-    
     glutReshapeFunc(reshape);
 	glEnable(GL_DEPTH_TEST);
 

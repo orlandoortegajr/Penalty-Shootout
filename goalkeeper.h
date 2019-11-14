@@ -22,6 +22,7 @@ class Goalkeeper
         Point3D position;
         float speed;
         float difficulty;
+        bool gkReachedPost;
 
         //vertices for each goalkeeper bodypart
         /*
@@ -103,6 +104,7 @@ class Goalkeeper
         void drawGKArmIndex();
 
         void drawGK();
+        void gkSideways();
 
         //number of faces for cube
         int numFaces;
