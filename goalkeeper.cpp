@@ -16,6 +16,36 @@ Goalkeeper::Goalkeeper()
 
     //number of faces for cube
     this->numFaces = 6;
+
+    //translations
+    for (int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 3; j++) {
+            if(j == 0) {
+                this->headVerts[i][0] += 18;
+                this->bodyVerts[i][0] += 18;
+                this->leftLegVerts[i][0] += 18;
+                this->rightLegVerts[i][0] += 18;
+                this->leftArmVerts[i][0] += 18;
+                this->rightArmVerts[i][0] += 18;
+            } else if (j == 1) {
+                this->headVerts[i][1] += 0;
+                this->bodyVerts[i][1] += 0;
+                this->rightLegVerts[i][1] += 0.085;
+                this->leftLegVerts[i][1] -= 0.085;
+                this->rightArmVerts[i][1] += 0.27;
+                this->leftArmVerts[i][1] -= 0.27;
+                
+            } else if (j == 2) {
+                this->headVerts[i][2] += 1.45;
+                this->bodyVerts[i][2] += 0.95;
+                this->rightLegVerts[i][2] += 0.3;
+                this->leftLegVerts[i][2] += 0.3;
+                this->rightArmVerts[i][2] += 1;
+                this->leftArmVerts[i][2] += 1;
+            }
+        }    
+    }
 }
 
 void Goalkeeper::drawGKFaceIndex()
@@ -36,63 +66,77 @@ void Goalkeeper::drawGKBodyIndex()
     }
 }
 
-void Goalkeeper::drawGKLegIndex()
+void Goalkeeper::drawGKRightLegIndex()
 {
     for (int i = 0; i < this->numFaces; i++)
     {
         glColor3fv(this->outfitColor);
-        this->drawGKLeg(i);
+        this->drawGKRightLeg(i);
     }
 }
 
-void Goalkeeper::drawGKArmIndex()
+void Goalkeeper::drawGKLeftLegIndex()
+{
+    for (int i = 0; i < this->numFaces; i++)
+    {
+        glColor3fv(this->outfitColor);
+        this->drawGKLeftLeg(i);
+    }
+}
+
+void Goalkeeper::drawGKRightArmIndex()
 {
     for (int i = 0; i < this->numFaces; i++)
     {
         glColor3fv(this->skinColor);
-        this->drawGKArm(i);
+        this->drawGKRightArm(i);
+    }
+}
+
+void Goalkeeper::drawGKLeftArmIndex()
+{
+    for (int i = 0; i < this->numFaces; i++)
+    {
+        glColor3fv(this->skinColor);
+        this->drawGKLeftArm(i);
     }
 }
 
 //x coordinate is depth, y is horizontal and z is vertical
 void Goalkeeper::drawGK()
 {
-    //head
     glPushMatrix();
-        glTranslatef(18, 0, 1.45);
-        this->drawGKFaceIndex();
-    glPopMatrix();
+        //head
+        glPushMatrix();
+            this->drawGKFaceIndex();
+        glPopMatrix();
 
-    //body
-    glPushMatrix();
-        glTranslatef(18, 0, 0.95);
-        this->drawGKBodyIndex();
-    glPopMatrix();
+        //body
+        glPushMatrix();
+            this->drawGKBodyIndex();
+        glPopMatrix();
 
-    //right leg
-    glPushMatrix();
-        glTranslatef(18, 0.085, 0.3);
-        this->drawGKLegIndex();
-    glPopMatrix();
+        //right leg
+        glPushMatrix();
+            this->drawGKRightLegIndex();
+        glPopMatrix();
 
-    //left leg
-    glPushMatrix();
-        glTranslatef(18, -0.085, 0.3);
-        this->drawGKLegIndex();
-    glPopMatrix();
+        //left leg
+        glPushMatrix();
+            this->drawGKLeftLegIndex();
+        glPopMatrix();
 
-    //rght arm
-    glPushMatrix();
-        glTranslatef(18, 0.27, 1);
-        // glRotatef(45, 0, 0, 0);
-        this->drawGKArmIndex();
-    glPopMatrix();
+        //rght arm
+        glPushMatrix();
+            // glRotatef(45, 0, 0, 0);
+            this->drawGKRightArmIndex();
+        glPopMatrix();
 
-    // left arm
-    glPushMatrix();
-        glTranslatef(18, -0.27, 1);
-        // glRotatef(-45, 0, 0, 0);
-        this->drawGKArmIndex();
+        // left arm
+        glPushMatrix();
+            // glRotatef(-45, 0, 0, 0);
+            this->drawGKLeftArmIndex();
+        glPopMatrix();
     glPopMatrix();
 }
 
@@ -104,8 +148,10 @@ void Goalkeeper::gkSideways()
         {
             this->headVerts[i][1] += 0.01;
             this->bodyVerts[i][1] += 0.01;
-            this->legVerts[i][1] += 0.01;
-            this->armVerts[i][1] += 0.01;
+            this->rightLegVerts[i][1] += 0.01;
+            this->leftLegVerts[i][1] += 0.01;
+            this->rightArmVerts[i][1] += 0.01;
+            this->leftArmVerts[i][1] += 0.01;
 
             if (this->bodyVerts[i][1] >= 2.6)
             {
@@ -117,8 +163,10 @@ void Goalkeeper::gkSideways()
         {
             this->headVerts[i][1] -= 0.01;
             this->bodyVerts[i][1] -= 0.01;
-            this->legVerts[i][1] -= 0.01;
-            this->armVerts[i][1] -= 0.01;
+            this->rightLegVerts[i][1] -= 0.01;
+            this->leftLegVerts[i][1] -= 0.01;
+            this->rightArmVerts[i][1] -= 0.01;
+            this->leftArmVerts[i][1] -= 0.01;
 
             if(this->bodyVerts[i][1] <= -2.6) {
                 gkReachedPost = false;
@@ -174,24 +222,46 @@ void Goalkeeper::drawGKBody(int index)
     glEnd();
 }
 
-void Goalkeeper::drawGKLeg(int index)
+void Goalkeeper::drawGKRightLeg(int index)
 {
     glBegin(GL_POLYGON);
     for (int i = 0; i < 4; i++)
     {
         int vIndex = this->indices[index][i];
-        glVertex3fv(this->legVerts[vIndex]);
+        glVertex3fv(this->rightLegVerts[vIndex]);
     }
     glEnd();
 }
 
-void Goalkeeper::drawGKArm(int index)
+void Goalkeeper::drawGKLeftLeg(int index)
 {
     glBegin(GL_POLYGON);
     for (int i = 0; i < 4; i++)
     {
         int vIndex = this->indices[index][i];
-        glVertex3fv(this->armVerts[vIndex]);
+        glVertex3fv(this->leftLegVerts[vIndex]);
+    }
+    glEnd();
+}
+
+void Goalkeeper::drawGKRightArm(int index)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 4; i++)
+    {
+        int vIndex = this->indices[index][i];
+        glVertex3fv(this->rightArmVerts[vIndex]);
+    }
+    glEnd();
+}
+
+void Goalkeeper::drawGKLeftArm(int index)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 4; i++)
+    {
+        int vIndex = this->indices[index][i];
+        glVertex3fv(this->leftArmVerts[vIndex]);
     }
     glEnd();
 }

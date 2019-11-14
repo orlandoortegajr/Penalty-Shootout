@@ -53,7 +53,7 @@ class Goalkeeper
             {0.5, -0.2, -0.35}
         };
 
-        float legVerts[8][3] = {
+        float leftLegVerts[8][3] = {
             {-0.5, -0.05, 0.25},
             {-0.5, 0.05, 0.25},
             {0.5, 0.05, 0.25},
@@ -64,7 +64,29 @@ class Goalkeeper
             {0.5, -0.05, -0.25}
         };
 
-        float armVerts[8][3] = {
+        float rightLegVerts[8][3] = {
+            {-0.5, -0.05, 0.25},
+            {-0.5, 0.05, 0.25},
+            {0.5, 0.05, 0.25},
+            {0.5, -0.05, 0.25},
+            {-0.5, -0.05, -0.25},
+            {-0.5, 0.05, -0.25},
+            {0.5, 0.05, -0.25},
+            {0.5, -0.05, -0.25}
+        };
+
+        float leftArmVerts[8][3] = {
+            {-0.4, -0.05, 0.225},
+            {-0.4, 0.05, 0.225},
+            {0.4, 0.05, 0.225},
+            {0.4, -0.05, 0.225},
+            {-0.4, -0.05, -0.225},
+            {-0.4, 0.05, -0.225},
+            {0.4, 0.05, -0.225},
+            {0.4, -0.05, -0.225}
+        };
+
+        float rightArmVerts[8][3] = {
             {-0.4, -0.05, 0.225},
             {-0.4, 0.05, 0.225},
             {0.4, 0.05, 0.225},
@@ -100,8 +122,10 @@ class Goalkeeper
         //GK body part draws based on index of cube face
         void drawGKFaceIndex();
         void drawGKBodyIndex();
-        void drawGKLegIndex();
-        void drawGKArmIndex();
+        void drawGKRightLegIndex();
+        void drawGKLeftLegIndex();
+        void drawGKRightArmIndex();
+        void drawGKLeftArmIndex();
 
         void drawGK();
         void gkSideways();
@@ -116,8 +140,10 @@ class Goalkeeper
         //function that draw gk body parts
         void drawGKFace(int index);
         void drawGKBody(int index);
-        void drawGKLeg(int index);
-        void drawGKArm(int index);
+        void drawGKRightLeg(int index);
+        void drawGKLeftLeg(int index);
+        void drawGKRightArm(int index);
+        void drawGKLeftArm(int index);
 };
 
 #endif
