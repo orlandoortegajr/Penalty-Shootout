@@ -15,6 +15,7 @@
 
 #include "goalkeeper.h"
 #include "ball.h"
+#include "post.h"
 
 using namespace std;
 
@@ -35,6 +36,12 @@ bool isLeftPressed = false;
 bool isRightPressed = false;
 
 Ball soccerBall;
+
+//Goalkeeper Initialization
+Goalkeeper gk = Goalkeeper();
+
+//Post Initalization
+Post post = Post();
 
 GLfloat materialAmbient[3][4] = {
     { 0.2, 0.2, 1, 1.0 },
@@ -71,232 +78,12 @@ GLfloat planeMaterialShiny =
     0.6
 ;
 
-/*
-GOALKEEPER Vertices
-x= ?
-y = thickness
-z = length
-*/
-float postVerts[8][3] = {
-    {-0.1, -0.1, 0.1},
-    {-0.1, 0.1, 0.1},
-    {0.1, 0.1, 0.1},
-    {0.1, -0.1, 0.1},
-    {-0.1, -0.1, -0.1},
-    {-0.1, 0.1, -0.1},
-    {0.1, 0.1, -0.1},
-    {0.1, -0.1, -0.1}
-};
-
-float headVerts[8][3] = {
-    {-0.1, -0.1, 0.1},
-    {-0.1, 0.1, 0.1},
-    {0.1, 0.1, 0.1},
-    {0.1, -0.1, 0.1},
-    {-0.1, -0.1, -0.1},
-    {-0.1, 0.1, -0.1},
-    {0.1, 0.1, -0.1},
-    {0.1, -0.1, -0.1}
-};
-
-float bodyVerts[8][3] = {
-    {-0.5, -0.2, 0.35},
-    {-0.5, 0.2, 0.35},
-    {0.5, 0.2, 0.35},
-    {0.5, -0.2, 0.35},
-    {-0.5, -0.2, -0.35},
-    {-0.5, 0.2, -0.35},
-    {0.5, 0.2, -0.35},
-    {0.5, -0.2, -0.35}
-};
-
-float legVerts[8][3] = {
-    {-0.5, -0.05, 0.25},
-    {-0.5, 0.05, 0.25},
-    {0.5, 0.05, 0.25},
-    {0.5, -0.05, 0.25},
-    {-0.5, -0.05, -0.25},
-    {-0.5, 0.05, -0.25},
-    {0.5, 0.05, -0.25},
-    {0.5, -0.05, -0.25}
-};
-
-float armVerts[8][3] = {
-    {-0.4, -0.05, 0.225},
-    {-0.4, 0.05, 0.225},
-    {0.4, 0.05, 0.225},
-    {0.4, -0.05, 0.225},
-    {-0.4, -0.05, -0.225},
-    {-0.4, 0.05, -0.225},
-    {0.4, 0.05, -0.225},
-    {0.4, -0.05, -0.225}
-};
-
-int indices[6][4] = {
-    //top
-    {1,2,6,5},
-    //left
-    {1,5,4,0},
-    //back 
-    {5,7,7,4},
-    //right
-    {2,3,7,6},
-    //bottom
-    {0,4,7,3},
-    //front
-    {1,0,3,2}
-};
-
-//GoalKeeper Initialization
-GoalKeeper goalie = GoalKeeper(1,0,0,0);
-
-//number of faces for cube
-int numFaces = 6;
-
-//Goalkeeper Face
-void drawGKFace(int index) 
-{
-    glBegin(GL_POLYGON);
-        for(int i = 0; i < 4; i++) {
-            int vIndex = indices[index][i];
-            glVertex3fv(headVerts[vIndex]);
-        }   
-    glEnd();
-}
-
-float color[3] = {0,0,1};
-
-void drawGKFaceIndex()
-{
-    for(int i = 0; i < numFaces; i++) {
-
-        glColor3fv(color);
-        drawGKFace(i);
-    }
-}
-
-//Goalkeeper Body
-void drawGKBody(int index)
-{
-    glBegin(GL_POLYGON);
-    for (int i = 0; i < 4; i++)
-    {
-        int vIndex = indices[index][i];
-        glVertex3fv(bodyVerts[vIndex]);
-    }
-    glEnd();
-}
-
-float colorB[3] = {0, 1, 0};
-
-void drawGKBodyIndex()
-{
-    for (int i = 0; i < numFaces; i++)
-    {
-        glColor3fv(colorB);
-        drawGKBody(i);
-    }
-}
-
-//Goalkeeper Legs
-void drawGKLeg(int index)
-{
-    glBegin(GL_POLYGON);
-    for (int i = 0; i < 4; i++)
-    {
-        int vIndex = indices[index][i];
-        glVertex3fv(legVerts[vIndex]);
-    }
-    glEnd();
-}
-
-float colorL[3] = {1, 0, 0};
-
-void drawGKLegIndex()
-{
-    for (int i = 0; i < numFaces; i++)
-    {
-        glColor3fv(colorL);
-        drawGKLeg(i);
-    }
-}
-
-//Goalkeeper Arms
-void drawGKArm(int index)
-{
-    glBegin(GL_POLYGON);
-    for (int i = 0; i < 4; i++)
-    {
-        int vIndex = indices[index][i];
-        glVertex3fv(armVerts[vIndex]);
-    }
-    glEnd();
-}
-
-float colorA[3] = {1, 0, 0};
-
-void drawGKArmIndex()
-{
-    for (int i = 0; i < numFaces; i++)
-    {
-        glColor3fv(colorA);
-        drawGKArm(i);
-    }
-}
-
-
-
-void drawpost(int index) 
-{
-    glBegin(GL_POLYGON);
-        for(int i = 0; i < 4; i++) {
-            int vIndex = indices[index][i];
-            glVertex3fv(postVerts[vIndex]);
-        }   
-    glEnd();
-}
-
-float white[3] = {1,1,1};
-
-void drawpostIndex()
-{
-    for(int i = 0; i < numFaces; i++) {
-
-        glColor3fv(white);
-        drawGKFace(i);
-    }
-}
-
 void setMaterials(unsigned int index) {
     
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialAmbient[index]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialDiffuse[index]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular[index]);
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materialShiny[index]);
-
-}
-
-void drawNet(){
-
-//top
-    glPushMatrix();
-    glTranslatef(18,0,2.42);
-    glScalef(1.0,30,1.5);
-    drawpostIndex();
-    glPopMatrix();
-//right
-    glPushMatrix();
-    glTranslatef(18,2.9,1.2);
-    glScalef(1.0,1.0,11.75);
-    drawpostIndex();
-    glPopMatrix();
-//left
-    glPushMatrix();
-    glTranslatef(18,-2.9,1.2);
-    glScalef(1.0,1.0,11.75);
-    drawpostIndex();
-    glPopMatrix();
-
 
 }
 
@@ -362,54 +149,11 @@ void draw3DScene(){
     soccerBall.draw();
     glPopMatrix();
 
-    //head
-    glPushMatrix();
-    glTranslatef(17,0,1.45);
-    drawGKFaceIndex();
-    glPopMatrix();
-
-    
-
-    //body
-    glPushMatrix();
-    glTranslatef(18, 0, 0.95);
-    drawGKBodyIndex();
-    glPopMatrix();
-
-    //right leg
-    glPushMatrix();
-    glTranslatef(18, 0.085, 0.3);
-    drawGKLegIndex();
-    glPopMatrix();
-
-    //left leg
-    glPushMatrix();
-    glTranslatef(18, -0.085, 0.3);
-    drawGKLegIndex();
-    glPopMatrix();
-
-    //rght arm
-    glPushMatrix();
-    glTranslatef(18, 0.3, 1);
-    glRotatef(45,0,0,0);
-    drawGKArmIndex();
-    glPopMatrix();
-
-    // left arm
-    glPushMatrix();
-    glTranslatef(18, -0.3, 1);
-    glRotatef(-45, 0, 0, 0);
-    drawGKArmIndex();
-    glPopMatrix();
-
+    gk.drawGK();
     createPlane();
-    drawNet();
-    
+    post.drawNet();
 
     ang++;
-
-   
-
 }
 
 
@@ -425,6 +169,7 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw3DScene();
+    gk.gkSideways();
     glutSwapBuffers();
 }
 
@@ -521,8 +266,6 @@ int main(int argc, char** argv)
     glLightfv(GL_LIGHT0, GL_SPECULAR, spec[0]);
 
 
-
-    
     glutReshapeFunc(reshape);
 	glEnable(GL_DEPTH_TEST);
 

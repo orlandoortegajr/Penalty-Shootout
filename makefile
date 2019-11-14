@@ -25,7 +25,7 @@ run: $(PROGRAM_NAME)
 	./$(PROGRAM_NAME)$(EXEEXT)
 
 #To add a file to compile list use name of file.o to ensure there are no compile errors and or clean errors when using make command
-$(PROGRAM_NAME): penaltyshootout.o goalkeeper.o ball.o  mathLib3D.o
+$(PROGRAM_NAME): penaltyshootout.o goalkeeper.o ball.o post.o  mathLib3D.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean:
