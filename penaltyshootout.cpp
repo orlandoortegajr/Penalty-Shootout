@@ -38,9 +38,15 @@ int textX = 0;
 bool isLeftPressed = false;
 bool isRightPressed = false;
 int score = 0;
+const float SPEEDXMINIMUM = 0.3;
+const float DIRYMINIMUM = 0;
+const float FORCEZMINIMUM = 0;
+float speedX = SPEEDXMINIMUM;
+float forceZ = FORCEZMINIMUM;
+float dirY = DIRYMINIMUM;
 
 
-Ball soccerBall;
+Ball soccerBall = Ball(0,0,0);
 
 //Goalkeeper Initialization
 Goalkeeper gk = Goalkeeper();
@@ -90,6 +96,41 @@ void setMaterials(unsigned int index) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialSpecular[index]);
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materialShiny[index]);
 
+}
+
+void drawPath(){
+    glPointSize(5);
+    glBegin(GL_POINTS);
+    glColor3f(0,1,1);
+
+    float x = 0;
+    float y = 0;
+    float z = 0.5;
+    float initialGravity = 1 - forceZ;
+    float gravity = 1;
+
+    for ( int i = 0; i < 1000; i++){
+        if ( i % 2 == 0){
+            x = x + speedX;
+            y = y + dirY;
+
+            if (z < 0.1){
+                initialGravity *= 0.9;
+                gravity = -initialGravity;
+                }
+            else {
+                gravity += 0.2;
+            }
+                z = z - 0.05*gravity;
+
+            glVertex3f(x,y,z);
+
+        }
+        
+        
+        
+    }
+    glEnd();
 }
 
 void drawHUD(){
@@ -176,7 +217,12 @@ void reshape( int w, int h){
 }
 
 void update(){
+
+    if ( gameOngoing){
+
     soccerBall.update();
+
+    }
 
     if ( cnt/60 == 60){
         gameOverScreen = true;
@@ -208,6 +254,7 @@ void draw3DScene(){
     gk.drawGK();
     createPlane();
     drawHUD();
+    drawPath();
     post.drawNet();
 
     ang++;
@@ -223,6 +270,8 @@ void FPS(int val){
 }
 
 
+
+
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -232,7 +281,11 @@ void display()
 }
 
 void initBall(){
-    soccerBall = Ball();
+    soccerBall = Ball(forceZ , dirY, speedX);
+    
+    float speedX = SPEEDXMINIMUM;
+    float forceZ = FORCEZMINIMUM;
+    float dirY = DIRYMINIMUM;
 }
 
 void kbd(unsigned char key, int x, int y)
@@ -249,6 +302,13 @@ void kbd(unsigned char key, int x, int y)
         case 's':
             AtMenu = false;
             gameOngoing = true;
+            break;
+        case 'x':
+            speedX += 0.1;
+            break;
+        case 'c':
+            speedX -= 0.1;
+            break;
         case ' ':
             if (!AtMenu && gameOngoing){
                 initBall();
@@ -264,15 +324,19 @@ void SpecialInput(int key, int x, int y)
     switch(key)
     {
         case GLUT_KEY_UP:
+            forceZ += 0.2;
         break;
 
         case GLUT_KEY_DOWN:
+            forceZ -= 0.2;
         break;
 
-        case GLUT_KEY_LEFT:    
+        case GLUT_KEY_LEFT:
+            dirY += 0.01;
         break;
 
         case GLUT_KEY_RIGHT:
+            dirY -= 0.01;
         break;
     }
 }
@@ -308,6 +372,13 @@ void mouse(int btn, int state, int x, int y){
 
 int main(int argc, char** argv)
 {
+    printf("\n"
+        "up arrow -> increase upward momentum of the kick\n"
+        "down arrow -> decrease upward momentum of the kick\n"
+        "left arrow -> angle kick to the left\n"
+        "right arrow -> angle kick to the right\n"
+        "x -> increase speed of the ball\n"
+        "c -> decrease speed of the ball\n");
     
 	glutInit(&argc, argv);
 	glutInitWindowSize(800, 800);
@@ -318,7 +389,6 @@ int main(int argc, char** argv)
     glutMotionFunc(updateMousePos);
     glutMouseFunc(mouse);
    
-    initBall();
 	glClearColor(0.5294117647,0.807,0.98, 0.8);
 
     glEnable(GL_COLOR_MATERIAL);

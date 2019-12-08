@@ -13,11 +13,13 @@
 #include <time.h>
 #include <stdlib.h>
 
-Ball::Ball(){
+Ball::Ball(float forceZ, float dirY, float speedX){
     this->position = Point3D(0,0,0.5);
-    this->direction = Vec3D(1,static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 0.2 - 0.1 ,0);
+    // this->direction = Vec3D(1,static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 0.2 - 0.1 ,0);
+    this->direction = Vec3D(1, dirY ,0);
     this->friction = 90;
     this->speed = 0.7;
+    this->gravity -= forceZ;
 }
 
 Ball::Ball(Point3D pos, Vec3D dir, float friction, float spd){
@@ -25,14 +27,24 @@ Ball::Ball(Point3D pos, Vec3D dir, float friction, float spd){
     this->direction = dir;
     this->friction = friction;
     this->speed = spd;
+    
 }
 
 void Ball::update(){
 
+    if ( this->position.pz < -0.35){
+        this->initialGravity *= 0.9;
+        this->gravity = -initialGravity;
+    }
+
+    else {
+        this->gravity += 0.2;
+    }
+
+
     this->position.py = this->position.py + this->direction.dy*this->speed;
     this->position.px = this->position.px + this->direction.dx*this->speed;
-
-    this->position.pz = this->position.pz - 0.05;
+    this->position.pz = this->position.pz - 0.05*this->gravity;
 
     // if ( this->position.pz < 0){
     //     this->position.pz = 0;
