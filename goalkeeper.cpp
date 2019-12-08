@@ -172,8 +172,13 @@ void Goalkeeper::gkSideways()
                 gkReachedPost = false;
             }
         }   
-
         
+    }
+    if (this->gkReachedPost){
+        this->position.py += 0.01;
+    }
+    if (!(this->gkReachedPost)){
+        this->position.py -= 0.01;
     }
 }
 

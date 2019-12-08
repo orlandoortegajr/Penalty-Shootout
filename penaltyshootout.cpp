@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <math.h>
 //#include <bits/stdc++.h> 
 
 #ifdef __APPLE__
@@ -44,6 +45,7 @@ const float FORCEZMINIMUM = 0;
 float speedX = SPEEDXMINIMUM;
 float forceZ = FORCEZMINIMUM;
 float dirY = DIRYMINIMUM;
+float skey = false;
 
 
 Ball soccerBall = Ball(0,0,0);
@@ -113,7 +115,6 @@ void drawPath(){
         if ( i % 2 == 0){
             x = x + speedX;
             y = y + dirY;
-
             if (z < 0.1){
                 initialGravity *= 0.9;
                 gravity = -initialGravity;
@@ -135,7 +136,7 @@ void drawPath(){
 
 void drawHUD(){
     glPushMatrix();
-    glTranslatef(70,4,15);
+    glTranslatef(60,20,15);
     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
     glRasterPos2i(0, 0);
     glPopMatrix();
@@ -144,9 +145,13 @@ void drawHUD(){
 
     if ( AtMenu){ //game hasn't started
 
-            unsigned char text[] 
-                = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE THE 'S' KEY!";
-            glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
+            const char text[] 
+                = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE 'S' KEY!";
+            //int lengtext = glutBitmapLength(GLUT_BITMAP_8_BY_13, text);
+            //glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
+            for (int i = 0; i < strlen(text); i++){
+                glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+            }
 
     }
 
@@ -161,18 +166,27 @@ void drawHUD(){
         time[1] = (cnt >> 8) & 0xFF;
 
         char buf[256];
-        snprintf(buf, sizeof(buf) - 1, "YOU HAVE %d SECONDS REMAINING\n%d POINTS SCORED", 60 - cnt/60, score);
+        snprintf(buf, sizeof(buf) - 1, "YOU HAVE %d SECONDS REMAINING, %d POINTS SCORED", 60 - cnt/60, score);
+        int track = 60 - cnt/60;
+        //glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+        for (int i = 0; i < strlen(buf); i++){
+                glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buf[i]);
+            }
 
-        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
-
+        if (track == 0){
+            gameOverScreen = true;
+            gameOngoing = false;
+        }
     }
 
     else if (gameOverScreen){
 
         char buf[256];
         snprintf(buf, sizeof(buf) - 1, "GAME OVER!!\nYou scored %d points!", score);
-        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
-
+        //glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+        for (int i = 0; i < strlen(buf); i++){
+                glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, buf[i]);
+            }
 
     }
 
@@ -216,14 +230,42 @@ void reshape( int w, int h){
     glutPostRedisplay();
 }
 
+void initBall(){
+    soccerBall = Ball(forceZ , dirY, speedX);
+    
+    float speedX = SPEEDXMINIMUM;
+    float forceZ = FORCEZMINIMUM;
+    float dirY = DIRYMINIMUM;
+}
+
 void update(){
 
     if ( gameOngoing){
 
-    soccerBall.update();
-
+    if (soccerBall.position.px >= 45){
+        initBall();
+        skey = false;
+        score += 1;
     }
-
+    else if (soccerBall.position.pz == 2.4){
+        cout << "Pos Diff: " << (soccerBall.position.py - gk.position.py) ;
+    }
+    else if (soccerBall.speed <= -0.5){
+        initBall();
+        skey = false;
+    }
+    else if (skey){
+        soccerBall.update();
+        Point3D temppos = soccerBall.position;
+        if (soccerBall.speed <= 0)
+            soccerBall.speed -= 0.005;
+        
+        if ( fabs(temppos.py - gk.position.py) <= 0.4 ){
+            //COLLISION!
+            soccerBall.speed *= -1.0;
+        }
+    }
+    }
     if ( cnt/60 == 60){
         gameOverScreen = true;
         gameOngoing = false;
@@ -280,14 +322,6 @@ void display()
     glutSwapBuffers();
 }
 
-void initBall(){
-    soccerBall = Ball(forceZ , dirY, speedX);
-    
-    float speedX = SPEEDXMINIMUM;
-    float forceZ = FORCEZMINIMUM;
-    float dirY = DIRYMINIMUM;
-}
-
 void kbd(unsigned char key, int x, int y)
 {
     switch(key){
@@ -302,6 +336,7 @@ void kbd(unsigned char key, int x, int y)
         case 's':
             AtMenu = false;
             gameOngoing = true;
+            skey = !skey;
             break;
         case 'x':
             speedX += 0.1;
