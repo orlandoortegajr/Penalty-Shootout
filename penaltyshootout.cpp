@@ -146,7 +146,7 @@ void drawHUD(){
 
             unsigned char text[] 
                 = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE THE 'S' KEY!";
-            glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
+            // glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
 
     }
 
@@ -163,7 +163,7 @@ void drawHUD(){
         char buf[256];
         snprintf(buf, sizeof(buf) - 1, "YOU HAVE %d SECONDS REMAINING\n%d POINTS SCORED", 60 - cnt/60, score);
 
-        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+        // glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
 
     }
 
@@ -171,7 +171,7 @@ void drawHUD(){
 
         char buf[256];
         snprintf(buf, sizeof(buf) - 1, "GAME OVER!!\nYou scored %d points!", score);
-        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+        // glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
 
 
     }
