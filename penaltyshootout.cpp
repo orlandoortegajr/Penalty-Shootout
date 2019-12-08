@@ -31,9 +31,14 @@ float diff[2][4] = { {0,0,1,1} , {1,0,0,1}  };
 float spec[2][4] = { {1,1,1,1}, {1,0,1,1}  };
 float mouseX = 0;
 float mouseY = 0;
-
+bool AtMenu = true;
+bool gameOngoing = false;
+bool gameOverScreen = true;
+int textX = 0;
 bool isLeftPressed = false;
 bool isRightPressed = false;
+int score = 0;
+
 
 Ball soccerBall;
 
@@ -87,6 +92,52 @@ void setMaterials(unsigned int index) {
 
 }
 
+void drawHUD(){
+    glPushMatrix();
+    glTranslatef(70,4,15);
+    glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+    glRasterPos2i(0, 0);
+    glPopMatrix();
+
+    // unsigned char text[] = "";
+
+    if ( AtMenu){ //game hasn't started
+
+            unsigned char text[] 
+                = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE THE 'S' KEY!";
+            glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
+
+    }
+
+    else if ( gameOngoing) {
+
+        unsigned char PointsQ[] 
+                = "CURRENT POINTS:";
+        unsigned char timeQ[] 
+                = "TIME REMAINING:";
+        unsigned char time[2];
+        time[0] = cnt & 0xFF;
+        time[1] = (cnt >> 8) & 0xFF;
+
+        char buf[256];
+        snprintf(buf, sizeof(buf) - 1, "YOU HAVE %d SECONDS REMAINING\n%d POINTS SCORED", 60 - cnt/60, score);
+
+        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+
+    }
+
+    else if (gameOverScreen){
+
+        char buf[256];
+        snprintf(buf, sizeof(buf) - 1, "GAME OVER!!\nYou scored %d points!", score);
+        glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) buf );
+
+
+    }
+
+    // glutBitmapString(GLUT_BITMAP_HELVETICA_18, text );
+}
+
 void createPlane(){
     glPushMatrix();
 
@@ -126,6 +177,11 @@ void reshape( int w, int h){
 
 void update(){
     soccerBall.update();
+
+    if ( cnt/60 == 60){
+        gameOverScreen = true;
+        gameOngoing = false;
+    }
 }
 
 void draw3DScene(){
@@ -142,7 +198,7 @@ void draw3DScene(){
 
     //gluLookAt(0,0,2, 2, mouseX*100 , mouseY*100, 0, 0, 1);
   
-    cnt++;
+    
     glPushMatrix();
     glTranslatef(2,0,1);
     update();
@@ -151,6 +207,7 @@ void draw3DScene(){
 
     gk.drawGK();
     createPlane();
+    drawHUD();
     post.drawNet();
 
     ang++;
@@ -158,6 +215,7 @@ void draw3DScene(){
 
 
 void FPS(int val){
+    cnt++;
     if (!isPaused){
         glutPostRedisplay();
     }
@@ -181,12 +239,21 @@ void kbd(unsigned char key, int x, int y)
 {
     switch(key){
         
-        case 'q':
+        
+        case 't':
+            textX--;
+             break;
         case 27:
             exit(0);
             break;
+        case 's':
+            AtMenu = false;
+            gameOngoing = true;
         case ' ':
-            initBall();
+            if (!AtMenu && gameOngoing){
+                initBall();
+            }
+            break;
     }
 
 

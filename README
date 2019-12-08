@@ -1,0 +1,9 @@
+To run the program, simply run the makefile with "make".
+
+Since this is the prototype, functionality is quite limited.
+
+To kick the ball again, hit the space bar.
+
+
+Resources:
+- https://www.glprogramming.com/red/
