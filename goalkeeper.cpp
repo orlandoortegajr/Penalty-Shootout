@@ -105,39 +105,32 @@ void Goalkeeper::drawGKLeftArmIndex()
 //x coordinate is depth, y is horizontal and z is vertical
 void Goalkeeper::drawGK()
 {
-    glPushMatrix();
+
         //head
-        glPushMatrix();
-            this->drawGKFaceIndex();
-        glPopMatrix();
+        this->drawGKFaceIndex();
+
 
         //body
-        glPushMatrix();
-            this->drawGKBodyIndex();
-        glPopMatrix();
 
+        this->drawGKBodyIndex();
+ 
         //right leg
-        glPushMatrix();
-            this->drawGKRightLegIndex();
-        glPopMatrix();
+
+        this->drawGKRightLegIndex();
 
         //left leg
-        glPushMatrix();
-            this->drawGKLeftLegIndex();
-        glPopMatrix();
+
+        this->drawGKLeftLegIndex();
 
         //rght arm
-        glPushMatrix();
+
             // glRotatef(45, 0, 0, 0);
-            this->drawGKRightArmIndex();
-        glPopMatrix();
+        this->drawGKRightArmIndex();
 
         // left arm
-        glPushMatrix();
             // glRotatef(-45, 0, 0, 0);
-            this->drawGKLeftArmIndex();
-        glPopMatrix();
-    glPopMatrix();
+        this->drawGKLeftArmIndex();
+
 }
 
 void Goalkeeper::gkSideways()
@@ -168,12 +161,10 @@ void Goalkeeper::gkSideways()
             this->rightArmVerts[i][1] -= 0.01;
             this->leftArmVerts[i][1] -= 0.01;
 
-            if(this->bodyVerts[i][1] <= -2.6) {
+            if(this->bodyVerts[i][1] <= -2.5) {
                 gkReachedPost = false;
             }
         }   
-
-        
     }
 }
 
