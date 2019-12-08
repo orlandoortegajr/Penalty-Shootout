@@ -12,6 +12,9 @@
 #include "ball.h"
 #include <time.h>
 #include <stdlib.h>
+#include "objLoad.cpp"
+
+objLoad loadBall = objLoad("./soccer_ball.obj");
 
 Ball::Ball(float forceZ, float dirY, float speedX){
     this->position = Point3D(0,0,0.5);
@@ -56,11 +59,12 @@ void Ball::update(){
 
 void Ball::draw(){
     glPushMatrix();
-        glColor3f(1, 0, 0);
+        //glColor3f(1, 0, 0);
         glTranslatef(this->position.px, this->position.py, this->position.pz);
         glPushMatrix();
             glScalef(0.25, 0.25, 0.25);
-            glutSolidSphere(1, 10, 10);
+            loadBall.draw();
+            //glutSolidSphere(1, 10, 10);
         glPopMatrix();
     glPopMatrix();
 }
