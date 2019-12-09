@@ -177,6 +177,12 @@ void Goalkeeper::gkSideways()
             // std::cout << headVerts[1][1] << std::endl;
         } 
     }
+    if (this->gkReachedPost){
+        this->position.py += 0.01;
+    }
+    if (!(this->gkReachedPost)){
+        this->position.py -= 0.01;
+    }
 }
 
 void Goalkeeper::setColors(float r, float g, float b, char option)
