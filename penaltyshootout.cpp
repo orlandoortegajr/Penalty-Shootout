@@ -47,6 +47,8 @@ float forceZ = FORCEZMINIMUM;
 float dirY = DIRYMINIMUM;
 float skey = false;
 
+Vec3D currRing = Vec3D();
+
 Ball soccerBall = Ball(0,0,0);
 
 //Goalkeeper Initialization
@@ -237,10 +239,63 @@ void initBall(){
     float dirY = DIRYMINIMUM;
 }
 
+void targets(){
+    int track = 60 - cnt/60;
+    switch (track){
+    
+    case 50 ... 60:
+    case 20 ... 29:
+    currRing = Vec3D(20.0,0.0,1.0);
+    glPushMatrix();
+    glTranslatef(20.0,0.0,1.0);
+    glRotatef(90.0,0.0,1.0,0);
+    glBegin(GL_POINTS);
+    for(int i=0;i<1000;++i)
+    {
+    glVertex3f(cos(2*3.14159*i/1000.0),sin(2*3.14159*i/1000.0),0);
+    }
+    glEnd();
+    glPopMatrix();;   
+    break;
+    case 40 ... 49:
+    case 10 ... 19:
+    currRing = Vec3D(20.0,2.0,1.0);
+    glPushMatrix();
+    glTranslatef(20.0,2.0,1.0);
+    glRotatef(90.0,0.0,1.0,0);
+    glBegin(GL_POINTS);
+    for(int i=0;i<1000;++i)
+    {
+    glVertex3f(cos(2*3.14159*i/1000.0),sin(2*3.14159*i/1000.0),0);
+    }
+    glEnd();
+    glPopMatrix();;   
+    break;
+
+    case 30 ... 39:
+    case 0 ... 9:
+    currRing = Vec3D(20.0,-2.0,1.0);
+    glPushMatrix();
+    glTranslatef(20.0,-2.0,1.0);
+    glRotatef(90.0,0.0,1.0,0);
+    glBegin(GL_POINTS);
+    for(int i=0;i<1000;++i)
+    {
+    glVertex3f(cos(2*3.14159*i/1000.0),sin(2*3.14159*i/1000.0),0);
+    }
+    glEnd();
+    glPopMatrix();;   
+    break;
+    
+    }
+}
+
+
+
 void update(){
 
     if ( gameOngoing){
-
+    
     if (soccerBall.position.px >= 45){
         initBall();
         skey = false;
@@ -260,12 +315,19 @@ void update(){
             //COLLISION!
             soccerBall.speed *= -1.0;
         }
+        else if (fabs(currRing.dy - soccerBall.position.py) <= 0.5 && fabs(currRing.dx - soccerBall.position.px) <= 0.5){
+            initBall();
+            skey = false;
+            score += 2;
+        }
     }
     }
     if ( cnt/60 == 60){
         gameOverScreen = true;
         gameOngoing = false;
     }
+
+    
 }
 
 void draw3DScene(){
@@ -282,13 +344,13 @@ void draw3DScene(){
 
     //gluLookAt(0,0,2, 2, mouseX*100 , mouseY*100, 0, 0, 1);
   
-    
     glPushMatrix();
+    
     glTranslatef(2,0,1);
     update();
     soccerBall.draw();
-    glPopMatrix();
-
+    glPopMatrix();    
+    targets();
     gk.drawGK();
     gk.gkSideways();
     createPlane();
@@ -474,7 +536,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-
-
-
