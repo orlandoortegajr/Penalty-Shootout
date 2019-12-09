@@ -394,9 +394,11 @@ void kbd(unsigned char key, int x, int y)
             exit(0);
             break;
         case 's':
-            AtMenu = false;
-            gameOngoing = true;
-            skey = !skey;
+            if (cnt/60 < 60){
+                AtMenu = false;
+                gameOngoing = true;
+                skey = !skey;
+            }
             break;
         case 'x':
             speedX += 0.1;
