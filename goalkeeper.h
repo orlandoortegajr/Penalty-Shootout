@@ -19,11 +19,11 @@
 class Goalkeeper 
 {
     public:
-        Goalkeeper();
+        Goalkeeper(float speed, float size);
         Point3D position;
         float speed;
-        float difficulty;
         bool gkReachedPost;
+        float size;
 
         //vertices for each goalkeeper bodypart
         /*
@@ -98,66 +98,6 @@ class Goalkeeper
             {0.4, -0.05, -0.225}
         };
 
-        float oGheadVerts[8][3] = {
-            {-0.1, -0.1, 0.1},
-            {-0.1, 0.1, 0.1},
-            {0.1, 0.1, 0.1},
-            {0.1, -0.1, 0.1},
-            {-0.1, -0.1, -0.1},
-            {-0.1, 0.1, -0.1},
-            {0.1, 0.1, -0.1},
-            {0.1, -0.1, -0.1}};
-
-        float oGbodyVerts[8][3] = {
-            {-0.5, -0.2, 0.35},
-            {-0.5, 0.2, 0.35},
-            {0.5, 0.2, 0.35},
-            {0.5, -0.2, 0.35},
-            {-0.5, -0.2, -0.35},
-            {-0.5, 0.2, -0.35},
-            {0.5, 0.2, -0.35},
-            {0.5, -0.2, -0.35}};
-
-        float oGleftLegVerts[8][3] = {
-            {-0.5, -0.05, 0.25},
-            {-0.5, 0.05, 0.25},
-            {0.5, 0.05, 0.25},
-            {0.5, -0.05, 0.25},
-            {-0.5, -0.05, -0.25},
-            {-0.5, 0.05, -0.25},
-            {0.5, 0.05, -0.25},
-            {0.5, -0.05, -0.25}};
-
-        float oGrightLegVerts[8][3] = {
-            {-0.5, -0.05, 0.25},
-            {-0.5, 0.05, 0.25},
-            {0.5, 0.05, 0.25},
-            {0.5, -0.05, 0.25},
-            {-0.5, -0.05, -0.25},
-            {-0.5, 0.05, -0.25},
-            {0.5, 0.05, -0.25},
-            {0.5, -0.05, -0.25}};
-
-        float oGleftArmVerts[8][3] = {
-            {-0.4, -0.05, 0.225},
-            {-0.4, 0.05, 0.225},
-            {0.4, 0.05, 0.225},
-            {0.4, -0.05, 0.225},
-            {-0.4, -0.05, -0.225},
-            {-0.4, 0.05, -0.225},
-            {0.4, 0.05, -0.225},
-            {0.4, -0.05, -0.225}};
-
-        float oGrightArmVerts[8][3] = {
-            {-0.4, -0.05, 0.225},
-            {-0.4, 0.05, 0.225},
-            {0.4, 0.05, 0.225},
-            {0.4, -0.05, 0.225},
-            {-0.4, -0.05, -0.225},
-            {-0.4, 0.05, -0.225},
-            {0.4, 0.05, -0.225},
-            {0.4, -0.05, -0.225}};
-
         //indices for each of the faces of the cube
         int indices[6][4] = {
             //top
@@ -176,6 +116,7 @@ class Goalkeeper
 
         float outfitColor[3];
         float skinColor[3];
+        float pantColor[3];
 
         void setColors(float r, float g, float b, char option);
         
@@ -207,6 +148,8 @@ class Goalkeeper
         void drawGKLeftArm(int index);
 
         void setSize(float a);
+        void setStartingTranslation();
+        void setSizeTranslation();
 };
 
 #endif
