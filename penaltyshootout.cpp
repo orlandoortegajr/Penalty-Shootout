@@ -203,17 +203,17 @@ void createPlane(){
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, planeMaterialSpecular);
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, planeMaterialShiny);
 
-    // // glColor3b(0, 60, 0);
-    // glBegin(GL_QUADS);
+    glColor3b(0, 60, 0);
+    glBegin(GL_QUADS);
 
-    // glNormal3f(0,0,1);
-    // glVertex3f(-20,-10,0);
-    // glVertex3f(20,-10,0);
-    // glVertex3f(20,10,0);
-    // glVertex3f(-20,10, 0);
+    glNormal3f(0,0,1);
+    glVertex3f(-20,-10,0);
+    glVertex3f(20,-10,0);
+    glVertex3f(20,10,0);
+    glVertex3f(-20,10, 0);
 
-    // glEnd();
-    // glPopMatrix();
+    glEnd();
+    glPopMatrix();
 }
 
 
