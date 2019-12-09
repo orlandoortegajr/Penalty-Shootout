@@ -31,12 +31,20 @@ Press keys 1-3 to change the difficulty, 3 being the hardest and 1 being the eas
 
 ### Features ###
 1. Lighting
+
 2. Particle System using libraries from the particle assignment
+
 3. Animated goalkeeper which moves within the boundaries of the net (Animated Character)
+
 4. Display user menu in the main game screen area
+
 5. Track Score and Time left
+
 6. Random targets that if hit give bonus points
+
 7. Trajectory path for the ball 
+
 8. Ball blocking when it hits GK
+
 9. Different levels of difficulty
 
