@@ -50,7 +50,7 @@ float skey = false;
 Ball soccerBall = Ball(0,0,0);
 
 //Goalkeeper Initialization
-Goalkeeper gk = Goalkeeper();
+Goalkeeper gk = Goalkeeper(0.05, 1.35);
 
 //Post Initalization
 Post post = Post();
@@ -145,14 +145,13 @@ void drawHUD(){
 
     if ( AtMenu){ //game hasn't started
 
-            const char text[] 
-                = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE 'S' KEY!";
+            const char textIntro[] 
+                = "WELCOME TO PENALTY SHOOT OUT! \n  \nTO GET STARTED PRESS THE 'S' KEY!";
             //int lengtext = glutBitmapLength(GLUT_BITMAP_8_BY_13, text);
             //glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
-            for (int i = 0; i < strlen(text); i++){
-                glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+            for (int i = 0; i < strlen(textIntro); i++){
+                glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, textIntro[i]);
             }
-
     }
 
     else if ( gameOngoing) {
@@ -327,7 +326,8 @@ void kbd(unsigned char key, int x, int y)
         
         case 't':
             textX--;
-             break;
+            break;
+        case 'q':
         case 27:
             exit(0);
             break;
@@ -347,6 +347,19 @@ void kbd(unsigned char key, int x, int y)
                 initBall();
             }
             break;
+        case '1':
+            gk = Goalkeeper(0.025,1);
+            break;
+        case '2':
+            gk = Goalkeeper(0.05, 1.35);
+            break;
+        case '3':
+            gk = Goalkeeper(0.1, 1.75);
+            break;
+        case 'r':
+            gk = Goalkeeper(0.05, 1.35);
+            score = 0;
+            cnt = 0;
     }
 
 
@@ -406,14 +419,20 @@ void mouse(int btn, int state, int x, int y){
 int main(int argc, char** argv)
 {
     printf("\n"
-        "up arrow -> increase upward momentum of the kick\n"
-        "down arrow -> decrease upward momentum of the kick\n"
-        "left arrow -> angle kick to the left\n"
-        "right arrow -> angle kick to the right\n"
-        "x -> increase speed of the ball\n"
-        "c -> decrease speed of the ball\n");
-    
-	glutInit(&argc, argv);
+           "up arrow -> increase upward momentum of the kick\n"
+           "down arrow -> decrease upward momentum of the kick\n"
+           "left arrow -> angle kick to the left\n"
+           "right arrow -> angle kick to the right\n"
+           "x -> increase speed of the ball\n"
+           "c -> decrease speed of the ball\n"
+           "r -> reset\n"
+           "s -> to kick\n"
+           "1 -> change difficulty to EASY\n"
+           "2 -> change difficulty to MEDIUM\n"
+           "3 -> change difficulty to HARD\n"
+    );
+
+    glutInit(&argc, argv);
 	glutInitWindowSize(800, 800);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutCreateWindow("Penalty Shootout");

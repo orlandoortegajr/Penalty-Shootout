@@ -19,10 +19,9 @@
 class Goalkeeper 
 {
     public:
-        Goalkeeper();
+        Goalkeeper(float speed, float size);
         Point3D position;
         float speed;
-        float difficulty;
         bool gkReachedPost;
         float size;
 
@@ -117,6 +116,7 @@ class Goalkeeper
 
         float outfitColor[3];
         float skinColor[3];
+        float pantColor[3];
 
         void setColors(float r, float g, float b, char option);
         

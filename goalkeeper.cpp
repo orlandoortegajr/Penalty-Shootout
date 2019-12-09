@@ -1,19 +1,21 @@
 #include "goalkeeper.h"
 
-Goalkeeper::Goalkeeper()
+Goalkeeper::Goalkeeper(float speed, float size)
 {
-    this->position = Point3D(0, 0, 0);
-    this->difficulty = 0;
-    this->speed = 0.05;
-    this->size = 1.35;
+    this->position = Point3D(0,0,0);
+    this->speed = speed;
+    this->size = size;
 
     this->gkReachedPost = false;
 
-    //set outfit color to green
+    //set outfit color
     this->setColors(0,1,0,'o');
 
-    //skin color = blue
-    this->setColors(0,0,1,'s');
+    //skin color 
+    this->setColors(0.71,0.396,0.114,'s');
+
+    //set pants color
+    this->setColors(0,0,0, 'p');
 
     //number of faces for cube
     this->numFaces = 6;
@@ -51,7 +53,7 @@ void Goalkeeper::drawGKRightLegIndex()
 {
     for (int i = 0; i < this->numFaces; i++)
     {
-        glColor3fv(this->outfitColor);
+        glColor3fv(this->pantColor);
         this->drawGKRightLeg(i);
     }
 }
@@ -60,7 +62,7 @@ void Goalkeeper::drawGKLeftLegIndex()
 {
     for (int i = 0; i < this->numFaces; i++)
     {
-        glColor3fv(this->outfitColor);
+        glColor3fv(this->pantColor);
         this->drawGKLeftLeg(i);
     }
 }
@@ -181,6 +183,12 @@ void Goalkeeper::setColors(float r, float g, float b, char option)
             this->skinColor[2] = b;
             break;
 
+        case 'p':
+            this->pantColor[0] = r;
+            this->pantColor[1] = g;
+            this->pantColor[2] = b;
+            break;
+
         default:
             break;
     }
@@ -279,8 +287,8 @@ void Goalkeeper::setStartingTranslation()
             {
                 this->headVerts[i][0] += 18;
                 this->bodyVerts[i][0] += 18;
-                this->leftLegVerts[i][0] += 18;
-                this->rightLegVerts[i][0] += 18;
+                this->leftLegVerts[i][0] += 18.2;
+                this->rightLegVerts[i][0] += 18.2;
                 this->leftArmVerts[i][0] += 18;
                 this->rightArmVerts[i][0] += 18;
             }
