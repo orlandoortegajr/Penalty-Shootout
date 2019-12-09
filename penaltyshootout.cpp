@@ -421,6 +421,7 @@ void kbd(unsigned char key, int x, int y)
             gk = Goalkeeper(0.1, 1.75);
             break;
         case 'r':
+            initBall();
             gk = Goalkeeper(0.05, 1.35);
             score = 0;
             cnt = 0;
