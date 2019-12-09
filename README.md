@@ -1,6 +1,6 @@
 # Penalty-Shootout
 ## 3D penalty soccer game built using C++ and OpenGL
-## By: Hariesh Jay(400135582) and Orlando Ortega(400051876) ##
+## By: Ali Kariapper(400134828), Hariesh Jay(400135582), Orlando Ortega(400051876), and Karanjot Sahni(400138529) ##
 
 ## Setup
 
