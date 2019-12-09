@@ -146,7 +146,6 @@ void drawHUD(){
 
             unsigned char text[] 
                 = "WELCOME TO PENALTY SHOOT OUT \nTO GET STARTED PRESS THE THE 'S' KEY!";
-            // glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*) text );
 
     }
 
